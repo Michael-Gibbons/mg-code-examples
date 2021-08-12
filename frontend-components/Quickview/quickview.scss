@@ -1,0 +1,135 @@
+.ambaum-quickview-modal__product-slider{
+  margin:auto;
+  height:100%;
+}
+
+.ambaum-quickview-modal__product-slider .swiper-wrapper{
+  align-items:center;
+}
+
+.ambaum-quickview-modal{
+  display:flex;
+  height:100%;
+  flex-direction:row;
+}
+
+.ambaum-quickview-modal__title{
+  font-size:25px;
+  font-weight: 600;
+  margin:20px 0;
+}
+
+.ambaum-quickview-modal__product-info{
+  flex: 0 0 50%;
+  padding:20px;
+}
+
+.ambaum-quickview-modal__product-link{
+  display: inline-block;
+  font-size: 9px;
+  text-decoration: underline;
+  font-family: "Purveyor", sans-serif;
+  font-weight: normal;
+  letter-spacing: 2px;
+}
+.ambaum-swiper-slide-image-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.ambaum-swiper-slide-image{
+  width:345px;
+  height:auto;
+  display: block;
+  user-select: none;
+}
+
+.ambuam-quickview-modal__variant-select{
+  max-width:150px;
+  margin:20px 0px;
+}
+
+.ambaum-quickview-modal__product-form{
+  display: flex;
+  margin:20px 0;
+  align-items: center;
+}
+
+.ambaum-quickview-modal__product-qty-adjust{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 50%;
+}
+
+.ambaum-quickview-modal__product-line-price{
+  text-align: right;
+  flex-basis: 50%;
+}
+
+.ambaum-quickview-modal__product-qty-adjust-input{
+  max-width: 100px;
+}
+
+.ambaum-quickview-modal__product-qty-adjust-input input{
+  max-width: 100px;
+  border:none;
+  text-align: center;
+}
+
+.ambaum-quickview-modal__product-qty-adjust-minus, .ambaum-quickview-modal__product-qty-adjust-plus{
+  font-size: 25px;
+  line-height: 20px;
+  margin-bottom:5px;
+  cursor:pointer;
+  user-select: none;
+}
+.ambaum-quickview-modal__loading{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+  background-color: white;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader{
+  margin: auto;
+  text-align: center;
+}
+
+.ambaum-quickview-modal__loading .loader svg path{
+  fill:black;
+}
+.add-to-cart-loader .loader svg path{
+  fill:black;
+}
+
+// Quickview item
+.amb_quickview-item__image-wrapper{
+  position:relative;
+}
+.amb_quickview-item__cta-button{
+  cursor:pointer;
+}
+.amb_quickview-item__cta-button--success,.amb_quickview-item__cta-button--success:hover{
+  background-color:#92d0ac;
+  color:white;
+  border: 2px solid #92d0ac;
+}
+
+.ambaum-quickview-modal__product-cart-submit .ambaum-quickview-modal__add-to-cart-text{
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  margin:0;
+}
+.add-to-cart-loader{
+  display:none;
+}

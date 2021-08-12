@@ -1,0 +1,67 @@
+{% unless breakpoints %}
+  {% assign breakpoints = '480px, 960px, 1440px' %}
+{% endunless %}
+{% unless imageSizes %}
+  {% assign imageSizes = '480, 960, 1440' %}
+{% endunless %}
+
+{% if reserveSpace == nil %}
+  {% assign reserveSpace = true %}
+{% endif %}
+
+{% assign imageSizesArr = imageSizes | remove: " " | split: ',' %}
+{% assign breakpointsArr = breakpoints | remove: " " | split: ',' %}
+
+<div {% if reserveSpace %}style="padding-top: {{ 1 | divided_by: imageObject.aspect_ratio | times: 100}}%; position: relative; width: 100%;" {% endif %}>
+  <picture {% if reserveSpace %}style="position:absolute; top:0; width: 100%;"{% endif %}>
+    {% if media %}
+
+      {% for imageSize in imageSizesArr %}
+        {% assign imageSizeFormatted = imageSize | append: 'x' %}
+        <source media="(max-width: {{breakpointsArr[forloop.index0]}})" srcset="{{ imageObject.src | img_url: imageSizeFormatted }}">
+      {% endfor %}
+      {% assign lastSize = imageSizesArr | last %}
+      {% assign lastBreakpoint = breakpointsArr | last %}
+      <source media="(min-width: {{lastBreakpoint}})" srcset="{{ imageObject.src | img_url: lastSize }}">
+      <img
+        src="{{ imageObject.src | img_url: '350x' }}"
+        alt="{{imageObject.alt}}" style="width: 100%;"
+        class="{{imageClasses}}"
+        loading="lazy"
+      >
+
+    {% else %}
+
+      {% assign srcsetString = '' %}
+      {% for imageSize in imageSizesArr %}
+        {% assign imageSizeFormatted = imageSize | append: 'x' %}
+        {% assign imageSrc = imageObject.src | img_url: imageSizeFormatted %}
+        {% assign imageWidth = imageSize | append: 'w' %}
+        {% assign srcsetPart = imageSrc | append: ' ' | append: imageWidth | append: ',' %}
+        {% assign srcsetString = srcsetString | append: srcsetPart %}
+      {% endfor %}
+      {% assign srcsetStringSize = srcsetString | size | minus: 1 %}
+      {% assign srcsetString = srcsetString | slice: 0, srcsetStringSize %}
+
+      {% assign sizesString = '' %}
+      {% for breakpoint in breakpointsArr %}
+        {% assign queryString = '(max-width: ' | append: breakpoint | append: ') ' | append: imageSizesArr[forloop.index0] | append: 'px,' %}
+        {% assign sizesString = sizesString | append: queryString %}
+      {% endfor %}
+
+      {% assign sizesStringSize = sizesString | size | minus: 1 %}
+      {% assign sizesString = sizesString | slice: 0, sizesStringSize %}
+
+      <img
+        srcset="{{srcsetString}}"
+        sizes="{{sizesString}}"
+        src="{{ imageObject.src | img_url: '350x' }}"
+        alt="{{imageObject.alt}}"
+        style="width: 100%;"
+        class="{{imageClasses}}"
+        loading="lazy"
+      >
+
+    {% endif %}
+  </picture>
+</div>

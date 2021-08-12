@@ -1,0 +1,18 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/ordercpusr/public_html
+    # install any new node modules
+    - /usr/bin/npm ci
+    # build for production
+    - /usr/bin/npm run build
+    # copy node modules, build files, and server files to app directory
+    - /usr/bin/rsync -a --delete node_modules/ $DEPLOYPATH/node_modules/
+    - /usr/bin/rsync -a --delete .next/ $DEPLOYPATH/.next/
+    - /usr/bin/rsync -a --delete lib/ $DEPLOYPATH/lib/
+    - /usr/bin/rsync -a --delete requests/ $DEPLOYPATH/requests/
+    - /usr/bin/rsync -a --delete middleware/ $DEPLOYPATH/middleware/
+    - /usr/bin/rsync -a --delete worker/ $DEPLOYPATH/worker/
+    - /usr/bin/cp next.config.js package.json .env $DEPLOYPATH
+    - /usr/bin/cp server.js $DEPLOYPATH/app.js
+    # tell Passenger to restart the app once changes copied over
+    - /usr/bin/touch $DEPLOYPATH/tmp/restart.txt

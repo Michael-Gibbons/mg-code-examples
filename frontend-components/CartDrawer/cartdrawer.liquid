@@ -1,0 +1,195 @@
+<div class="cart-drawer-wrapper d-flex justify-content-end" data-cart-wrapper>
+  <div class="cart-drawer">
+
+    <script type="application/json" data-cart-json>{{ cart | json }}</script>
+
+    <div class="btw-grid-12 container cart-content-wrapper">
+      {%- comment -%} HEADER {%- endcomment -%}
+      <div class="cart-content__inner">
+        <div class="row align-items-center cart-drawer__header mb-1">
+          <div class="col-10 cart-drawer__heading">
+            <div class="cart-drawer__header-row">
+              <div>
+                <img src="{{'cart-icon.png' | asset_url }}">
+              </div>
+              <div>
+                {{ section.settings.cart_drawer_heading }}
+              </div>
+              <div data-cart-count>
+                {%- unless cart.item_count == 0 -%}
+                ({{cart.item_count}})
+                {%- endunless -%}
+              </div>
+              <div>
+                <span> - </span>
+                <span data-cart-subtotal> {{ cart.total_price | money }}</span>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="cart-drawer__close text-right" data-cart-close>&#10005;</div>
+          </div>
+        </div>
+
+        <hr class="cart-drawer__top-hr">
+
+        {%- comment -%} CART CONTENT {%- endcomment -%}
+        <div class="cart-drawer__content mb-1" data-cart-content></div>
+
+        {%- comment -%} LINE ITEM TEMPLATE {%- endcomment -%}
+        <div class="hidden" data-cart-line-item-template>
+          {%- comment -%}
+            LINE ITEM TEMPLATE FOR CART DRAWER
+            - this piece of html is retrieved using JS
+            - then if cart is not empty, loop through line items
+            - using this template and replace all variables inside {variable} with appropriate data
+            - cart-drawer__content is then populated with line items
+          {%- endcomment -%}
+          <div id="{item_id}" class="row mb-2 drawer-item" data-cart-line-item-key="{item_key}" data-cart-line-item>
+            <div class="col-4 pl-0 text-center cart-drawer__line-item-image">
+                <img class="drawer-item__image" src="{item_img_url}" alt="{item_img_alt}">
+            </div>
+            <div class="col-8 pl-0 d-flex align-items-center">
+              <div class="col-12">
+                <div class="drawer-item__title mb-1">{item_title}</div>
+                <div class="cart-drawer__qty-form d-flex justify-content-between mb-1">
+                  <div class="d-flex align-items-center drawer-item__quantity col-6" data-cart-quantity-wrapper>
+                    <button class="drawer-item__quantity__toggle drawer-item__quantity__toggle--minus" data-cart-quantity-incdec data-cart-quantity-inc>&minus;</button>
+                    <input class="drawer-item__quantity__input" type="text" value="{item_quantity}" name="{item_title}"  data-cart-quantity-input onkeydown="javascript: return event.keyCode === 8 || event.keyCode === 46 || event.keyCode === 37 || event.keyCode === 39 || event.keyCode === 16 || event.keyCode === 9 ? true : !isNaN(Number(event.key))" >
+                    <button class="drawer-item__quantity__toggle drawer-item__quantity__toggle--plus" data-cart-quantity-incdec data-cart-quantity-dec>&plus;</button>
+                  </div>
+                  <div class="drawer-item-price col-4">{item_price}</div>
+                </div>
+                <div class="drawer-item__specs d-flex align-items-center mb-1">
+                  {item_properties}
+                </div>
+                <!-- <a href="/cart/change?line={item_index}&amp;quantity=0" class="drawer-item__remove text-link text-link--accent" aria-label="{item_title}" data-cart-remove="{item_key}">Remove</a> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="cart-drawer__bottom-hr">
+        <div class="cart-drawer__information-container">
+          <div class="col-12 cart-drawer__text">
+            {{ section.settings.cart_drawer_text }}
+          </div>
+
+
+          {%- comment -%} CART FOOTER {%- endcomment -%}
+          <div class="row section cart-drawer__footer">
+            <div class="cart-drawer__subtotal col-12 d-flex align-items-center justify-content-around mb-1">
+              <span class="text-uppercase">Subtotal</span>
+              <span data-cart-subtotal>{{ cart.total_price | money }}</span>
+            </div>
+          </div>
+
+          {%- comment -%} GIFT NOTE {%- endcomment -%}
+          <div class="hidden row" data-cart-note>
+            <div class="col-12">
+                <div class="cart-drawer__text">
+                  {{ section.settings.gift_note_heading }}
+                </div>
+                <textarea class="cart-drawer__note-textarea" data-cart-note-content>{{cart.note}}</textarea>
+            </div>
+          </div>
+          <hr class="hidden mt-1 mb-1">
+        </div>
+        {%- comment -%} CHECKOUT BUTTON {%- endcomment -%}
+      </div>
+      <div class="cart-drawer__upsell">
+        <div class="cart-drawer__upsell-inner">
+          <div class="cart-drawer__uspsell-title">
+            You may also like
+          </div>
+          <div class="cart-drawer__upsell-products">
+            <div class="cart-drawer__upsell-product">
+              {% assign product = all_products[section.settings.upsell-product-1]%}
+              <div class="cart-drawer__upsell-product-image">
+                <img src="{{product.featured_image | img_url: 'medium'}}" alt="">
+              </div>
+              <div class="cart-drawer__upsell-product-title">
+                {{product.title}}
+              </div>
+              <div class="cart-drawer__upsell-cta-wrapper">
+                <div class="cart-drawer__upsell-product-price">
+                  {{product.price | money}}
+                </div>
+                <div class="cart-drawer__upsell-product-cta" data-cart-add="{{product.first_available_variant.id}}">
+                  {% if product.available %}
+                    Add to cart
+                  {% else %}
+                    <span class="cart-drawer__upsell-sold-out">Sold out</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="cart-drawer__upsell-product">
+              {% assign product = all_products[section.settings.upsell-product-2]%}
+              <div class="cart-drawer__upsell-product-image">
+                <img src="{{product.featured_image | img_url: 'medium'}}" alt="">
+              </div>
+              <div class="cart-drawer__upsell-product-title">
+                {{product.title}}
+              </div>
+              <div class="cart-drawer__upsell-cta-wrapper">
+                <div class="cart-drawer__upsell-product-price">
+                  {{product.price | money}}
+                </div>
+                <div class="cart-drawer__upsell-product-cta" data-cart-add="{{product.first_available_variant.id}}">
+                  {% if product.available %}
+                    Add to cart
+                  {% else %}
+                    <span class="cart-drawer__upsell-sold-out">Sold out</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="/checkout" class="cart-drawer__checkout btn bg-seafoam block text-uppercase mt-2" data-cart-checkout>Checkout</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart Drawer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Cart Drawer Settings"
+    },
+    {
+      "type": "text",
+      "label": "Heading",
+      "id": "cart_drawer_heading",
+      "default": "My Cart"
+    },
+    {
+      "type": "text",
+      "label": "Gift note heading",
+      "id": "gift_note_heading",
+      "default": "Add a note to your order"
+    },
+    {
+      "type": "richtext",
+      "label": "Taxes and discount text",
+      "id": "cart_drawer_text",
+      "default": "<p>Taxes and discounts calculated in checkout.</p>"
+    },
+    {
+      "type": "product",
+      "label": "Upsell Product 1",
+      "id": "upsell-product-1"
+    },
+    {
+      "type": "product",
+      "label": "Upsell Product 2",
+      "id": "upsell-product-2"
+    }
+  ]
+}
+{% endschema %}
