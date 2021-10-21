@@ -19,13 +19,13 @@ The following properties are able to be passed into the snippet as variables.
 
 ## Usage/Examples
 ```
-{% render 'ambaum-image', imageObject: product.featured_image, imageSizes: '350, 500, 650', media: true, breakpoints: '480px, 960px, 1440px' %}
+{% render 'optimized-image', imageObject: product.featured_image, imageSizes: '350, 500, 650', media: true, breakpoints: '480px, 960px, 1440px' %}
 ```
 
 From a metafield CDN:
 ```
     {% assign filename =  METAFIELD_CDN | split: 'files/' | last | split: '?' | first %}
     {% assign imageObject = images[filename] %}
-    {% render 'ambaum-image', imageObject: imageObject, imageSizes: '350, 500, 650', breakpoints: '480px, 960px, 1440px' %}
+    {% render 'optimized-image', imageObject: imageObject, imageSizes: '350, 500, 650', breakpoints: '480px, 960px, 1440px' %}
 ```
 
