@@ -25,12 +25,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 1. Install common frontend
   ```sh
-  npm install @ambaum/common-frontend
+  npm install @mg-code-examples/common-frontend
   ```
 
 2. Import feature
   ```sh
-  import { CartDrawer } from '@ambaum/common-frontend'
+  import { CartDrawer } from '@mg-code-examples/common-frontend'
   ```
 
 ## Usage
